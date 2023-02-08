@@ -12,6 +12,11 @@ router.get('/join',isNotLoggedIn ,(req, res)=>{
     res.render('join', { title: '회원가입하기'});
 });
 
+//신청서 페이지
+router.get('/apply',isLoggedIn, (req, res) => {
+    res.render('apply', { title: '신청서 입력 페이지'});
+});
+
 //메인 페이지
 router.get('/', (req, res, next) => {
     res.render('main', { title: '인덱스 페이지'});

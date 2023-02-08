@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./CSS/main.css">
+</head>
+<body>
+    <div class="timeline">
+        <form id="application-form" action="/getApp/apply" method="post">
+        <div class="input-group">
+            <label for="application-intro">학번</label><br>
+            <input id="application-intro" type="text" value= {{user.studentID}} name="studentID" readonly></div>
+          <div class="input-group">
+            <label for="application-intro">자기 소개를 해보세요.</label><br>
+            <input id="application-intro" type="text" name="intro"></div>
+          <div class="input-group">
+            <label for="application-nick">쓸 줄 아는 언어가 있나요?</label><br>
+            <input id="application-nick" type="text" name="language"></div>
+          <div class="input-group">
+              <label for="application-phoneNumber">무슨 언어를 사용할 줄 아나요?</label><br>
+              <input id="application-phoneNumber" type="text" name="etclang"></div>
+          <div class="input-group">
+            <label for="application-password">프로젝트를 진행한 적이 있나요?</label><br>
+            <input id="application-password" type="text" name="project">
+          </div>
+          <div class="input-group">
+            <label for="application-password">향후 무슨 언어를 배우고 싶나요?</label><br>
+            <input id="application-password" type="text" name="languagePlan">
+          </div>
+          <div class="input-group">
+            <label for="application-password">향후 무슨 프로젝트를 진행하고 싶나요?</label><br>
+            <input id="application-password" type="text" name="projectPlan">
+          </div>
+          <button id="application-btn" type="submit" class="btn">신청서 제출</button>
+        </form>
+    </div>
+</body>
+</html>
