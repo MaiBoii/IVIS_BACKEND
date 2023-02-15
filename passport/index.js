@@ -4,14 +4,14 @@ const User = require('../models/user');
 
 module.exports = () => {
     passport.serializeUser((user, done) => {
-        done(null, user.id);
+        done(null, user.sid);
     });
 
-    passport.deserializeUser((id, done) => {
-        User.findOne( { where: { id } } ) 
+    passport.deserializeUser((sid, done) => {
+        User.findOne( { where: { sid } } ) 
             .then(user => done(null, user))
             .catch(err => done(err));
     });
 
-    local();
+    local();``
 }
