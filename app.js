@@ -34,7 +34,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   secret: process.env.IVIS_SECRET,
-  cookie: {``
+  cookie: {
     httpOnly: false,
     secure: false
   },
