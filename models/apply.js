@@ -6,6 +6,7 @@ module.exports = class Apply extends Sequelize.Model {
             sid:{
                 type: Sequelize.STRING(20),
                 allowNull:false,
+                primaryKey: true,
                 unique: true
             },
             intro: {
