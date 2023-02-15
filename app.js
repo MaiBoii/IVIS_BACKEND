@@ -1,28 +1,22 @@
 const express = require('express')
+const path = require('path');
+const passport = require('passport');
+const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
-const path = require('path');
-const session = require('express-session');
 const dotenv = require('dotenv');
-const nunjucks = require('nunjucks');
-const passport = require('passport');
 
 dotenv.config();
 const pageRouter = require('./routes/page');
-const authRouter = require('./routes/auth');
-const getAppRouter = require('./routes/getApp');
+const userRouter = require('./routes/user');
+const getAppRouter = require('./routes/application');
 const passportConfig = require('./passport');
 const { sequelize } = require('./models');
 
 const app = express()
 passportConfig(); //패스포트 설정
 app.set('portnumber', process.env.PORT || 8082);
-app.set('view engine', 'html');
 
-nunjucks.configure('views', {
-  express:app,
-  watch: true
-});
 sequelize.sync({ force: false})
   .then(() => {
     console.log('데이터베이스 연결 성공');
@@ -34,24 +28,25 @@ sequelize.sync({ force: false})
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.IVIS_SECRET));
 app.use(session({
   resave: false,
   saveUninitialized: false,
   secret: process.env.IVIS_SECRET,
-  cookie: {
-    httpOnly: true,
+  cookie: {``
+    httpOnly: false,
     secure: false
   },
+  name: 'IVIS-sID',
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', pageRouter);
-app.use('/auth', authRouter);
-app.use('/getApp', getAppRouter);
+app.use('/user', userRouter);
+app.use('/application', getAppRouter);
 
 app.use((req, res, next)=>{
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다`);
@@ -61,7 +56,14 @@ app.use((req, res, next)=>{
 
 app.use((err, req, res, next)=>{
   res.status(err.status || 500);
-  res.render('error');
+});
+
+app.post('/', (req, res, next) => {
+  try{
+    console.log(req, res);
+  } catch{
+    res.send('error!');
+  }
 });
  
 app.listen(app.get('portnumber'), () => {

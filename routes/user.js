@@ -7,30 +7,30 @@ const User = require("../models/user");
 const router = express.Router();
 
 //회원가입 라우터에 post 메소드가 왔을 경우 
-router.post('/join', isNotLoggedIn,async(req, res, next) => {
-    const { studentID, name, phoneNumber, password} = req.body;
+router.post('/register', isNotLoggedIn, async(req, res, next) => {
+    const { sid, name, phone, pw } = req.body;
     const salt = bcrypt.genSaltSync(10);
     try {
-        const exUser = await User.findOne({ where: { studentID }});
+        const exUser = await User.findOne({ where: { sid }});
         if(exUser){
-            return res.redirect('/join?error=exist');
+            return res.redirect('/register?error=exist');
         }
-        const hash = await bcrypt.hash(password, salt);
+        const hash = await bcrypt.hash(pw, salt);
         await User.create({
-            studentID,
+            sid,
             name,
-            phoneNumber,
-            password: hash,
+            phone,
+            pw: hash,
         });
-        return res.redirect('/');
+        return res.send({"result": true}).status(200);
     } catch (error) {
         console.error(error);
-        return next(error);
+        return res.status(400).send({"result": false});
     }
 });
 
 //로그인 라우터에서 post 요청이 왔을 경우
-router.post('/login', isNotLoggedIn,async(req, res, next) => {
+router.post('/check', isNotLoggedIn,async(req, res, next) => {
     passport.authenticate('local', (authError, user, info) => {
         if(authError) {
             console.error(authError);
@@ -44,7 +44,10 @@ router.post('/login', isNotLoggedIn,async(req, res, next) => {
                 console.error(loginError);
                 return next(loginError);
             }
-            return res.redirect('/');
+            return res.send(
+                {
+                "result": true
+                });
         });
     })(req, res, next); //미들웨어 내의 미들웨어에는 (req,res,next)를 붙이라고 함.
 });

@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 module.exports = class Apply extends Sequelize.Model {
     static init(sequelize){
         return super.init({
-            studentID:{
+            sid:{
                 type: Sequelize.STRING(20),
                 allowNull:false,
                 unique: true
@@ -13,10 +13,6 @@ module.exports = class Apply extends Sequelize.Model {
                 allowNull: false,
             },
             language: {
-                type: Sequelize.TEXT,
-                allowNull: false,
-            },
-            etclang: {
                 type: Sequelize.TEXT,
                 allowNull: false,
             },
@@ -38,7 +34,6 @@ module.exports = class Apply extends Sequelize.Model {
             underscored: false,
             modelName: 'Apply',
             tableName: 'apps',
-            paranoid: true,
             charset: 'utf8',
             collate: 'utf8_general_ci'
         });

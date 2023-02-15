@@ -15,7 +15,7 @@ router.post('/',async(req, res, next) => {
             intro,
             language,
             etclang,
-            project,``
+            project,
             languagePlan,
             projectPlan
         });
