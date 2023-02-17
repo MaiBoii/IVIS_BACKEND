@@ -1,2 +1,4 @@
 .env
-sftp
+sftp/
+ivis_front/
+node_module/
