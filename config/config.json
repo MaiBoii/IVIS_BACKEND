@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "root",
+    "username": "ivis",
     "password": "ivis1234",
-    "database": "IVIS",
+    "database": "ivis",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres"
   }
 }

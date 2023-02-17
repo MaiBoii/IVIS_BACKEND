@@ -6,7 +6,6 @@ module.exports = class Apply extends Sequelize.Model {
             sid:{
                 type: Sequelize.STRING(20),
                 allowNull:false,
-                primaryKey: true,
                 unique: true
             },
             intro: {
@@ -14,18 +13,14 @@ module.exports = class Apply extends Sequelize.Model {
                 allowNull: false,
             },
             language: {
-                type: Sequelize.TEXT,
+                type: Sequelize.ARRAY(Sequelize.TEXT),
                 allowNull: false,
             },
             project: {
                 type: Sequelize.TEXT,
                 allowNull: true
             },
-            languagePlan: {
-                type: Sequelize.TEXT,
-                allowNull: true
-            },
-            projectPlan: {
+            etc: {
                 type: Sequelize.TEXT,
                 allowNull: true
             },

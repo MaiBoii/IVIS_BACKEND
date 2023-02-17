@@ -14,10 +14,9 @@ router.get('/register',isNotLoggedIn ,(req, res)=>{
 });
 
 //신청서 페이지
-router.get('/application',isLoggedIn, async (req, res) => {
+router.get('/api/application',isLoggedIn, async (req, res) => {
     try{
-        const sid=req.cookies.sid;
-        const appliedUser = await Apply.findOne({ where:{ sid }});
+        const appliedUser = await Apply.findOne({ where:{ sid:req.user.sid }});
         if(appliedUser){
             return res.send(appliedUser);
         }
