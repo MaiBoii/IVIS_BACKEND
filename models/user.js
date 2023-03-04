@@ -19,6 +19,10 @@ module.exports = class User extends Sequelize.Model {
                 type: Sequelize.STRING(20),
                 allowNull: false,
             },
+            approved: {
+                type: Sequelize.BOOLEAN,
+                defaultValue: false,
+            }
         },{
             sequelize,
             timestamps: true,
