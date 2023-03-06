@@ -1,6 +1,6 @@
 # ivis_admin
-[![ko](https://img.shields.io/badge/lang-ko-red.svg)](https://github.com/picel/IVIS_BACKEND/blob/main/README.md)
-[![ja](https://img.shields.io/badge/lang-ja-blue.svg)](https://github.com/picel/IVIS_BACKEND/blob/main/README.jp.md)
+[![ko](https://img.shields.io/badge/lang-ko-red.svg)](https://github.com/picel/IVIS_BACKEND/blob/master/README.md)
+[![ja](https://img.shields.io/badge/lang-ja-blue.svg)](https://github.com/picel/IVIS_BACKEND/blob/master/README.jp.md)
 
 ## 개요
 - IVIS 신입 연구원 모집 페이지 백엔드 서버
