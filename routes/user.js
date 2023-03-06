@@ -10,6 +10,7 @@ const router = express.Router();
 
 //회원가입 라우터에 post 메소드가 왔을 경우 
 router.post('/register', isNotLoggedIn, async (req, res) => {
+    console.log(req.body);
     const { sid, pw, name, phone } = req.body;
     const salt = bcrypt.genSaltSync(10);
     try {
@@ -71,28 +72,28 @@ router.post('/pwcheck', isNotLoggedIn, async (req, res) => {
 
         Apply.findOne({ where: { sid } }).then((applied) => {
             if (applied) {
-		return req.login(user, (loginError)=> {
-			if (loginError) {
-				console.error(loginError);
-				return next(loginError);
-			}
-                	res.send({
-                	    	"result": true,
-                    		"name": user.name,
-                    		"apply": true
-                	});
-		});
+                return req.login(user, (loginError) => {
+                    if (loginError) {
+                        console.error(loginError);
+                        return next(loginError);
+                    }
+                    res.send({
+                        "result": true,
+                        "name": user.name,
+                        "apply": true
+                    });
+                });
             } else {
-		    return req.login(user, (loginError)=> {
-                        if (loginError) {
-                                console.error(loginError);
-                                return next(loginError);
-                        }
-                        res.send({
-                                "result": true,
-                                "name": user.name,
-                                "apply": false
-                        });
+                return req.login(user, (loginError) => {
+                    if (loginError) {
+                        console.error(loginError);
+                        return next(loginError);
+                    }
+                    res.send({
+                        "result": true,
+                        "name": user.name,
+                        "apply": false
+                    });
                 });
             }
         }).catch((err) => {
@@ -104,22 +105,22 @@ router.post('/pwcheck', isNotLoggedIn, async (req, res) => {
     })(req, res);
 });
 
-router.get('/logincheck', async(req, res, next) => {
+router.get('/logincheck', async (req, res, next) => {
     if (req.isAuthenticated()) {
         const sid = req.user.sid;
-        User.findOne({ attributes:['name'], where: { sid: sid } }).then(name => {
-            Apply.findOne({where:{sid:sid}}).then(applied => {
+        User.findOne({ attributes: ['name'], where: { sid: sid } }).then(name => {
+            Apply.findOne({ where: { sid: sid } }).then(applied => {
                 if (applied) {
-                    return res.send({ "result" : true, "name": name.dataValues.name, "applied": true});
+                    return res.send({ "result": true, "name": name.dataValues.name, "applied": true });
                 } else {
-                    return res.send({ "result" : true, "name": name.dataValues.name, "applied": false});
+                    return res.send({ "result": true, "name": name.dataValues.name, "applied": false });
                 }
 
             })
-          });
-      } else {
-        return res.send({"result": false });
-      }
+        });
+    } else {
+        return res.send({ "result": false });
+    }
 });
 
 //로그아웃 처리

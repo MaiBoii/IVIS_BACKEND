@@ -8,6 +8,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 const pageRouter = require('./routes/page');
+const interviewRouter = require('./routes/interview');
 const userRouter = require('./routes/user');
 const getAppRouter = require('./routes/application');
 const adminRouter = require('./routes/admin');
@@ -51,6 +52,7 @@ app.use(passport.session());
 app.use('/api/user', userRouter);
 app.use('/api/application', getAppRouter);
 app.use('/api/admin', adminRouter);
+app.use('/api/interview', interviewRouter);
 
 app.use((req, res, next) => {
 	const error = new Error(`${req.method} ${req.url} 라우터가 없습니다`);
