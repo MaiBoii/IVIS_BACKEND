@@ -46,9 +46,10 @@ router.get('/', isLoggedIn, async (req, res, next) => {
                 }
             });
         } else {
-            // read all data from reserves table, no need sid
+            // read all data from reserves table, day, time, reserved order by id
             const reserves = await Reserve.findAll({
-                attributes: ['day', 'time', 'reserved']
+                attributes: ['day', 'time', 'reserved'],
+                order: [['id', 'ASC']]
             });
             const result = {
                 "check": false,
