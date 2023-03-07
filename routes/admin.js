@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const User = require("../models/user");
 const Apply = require('../models/apply');
+const Reserve = require('../models/interview');
 
 const router = express.Router();
 
@@ -72,23 +73,90 @@ router.get('/users', async (req, res) => {
 
 //get /applicaton/:sid
 router.get('/application/:sid', async (req, res) => {
-    //if (!token_verify(req.headers.token)) {
-    //    return res.status(403);
-    // }
     try {
-        const apply = await Apply.findOne({
-            where: {
-                sid: req.params.sid
+        let token_res = await token_verify(req.headers.authorization);
+        if (token_res === false) {
+            throw new Error("Token Verify Failed");
+        } else {
+            const apply = await Apply.findOne({
+                where: {
+                    sid: req.params.sid
+                }
+            });
+            if (apply) {
+                res.send({
+                    "result": apply
+                });
             }
-        });
-        if (apply) {
+            else {
+                res.status(404).send({
+                    "error": "Not Found"
+                });
+            }
+        }
+    }
+    catch (err) {
+        console.error(err);
+        return res.status(400);
+    }
+});
+
+router.get('/interview', async (req, res) => {
+    try {
+        let token_res = await token_verify(req.headers.authorization);
+        if (token_res === false) {
+            throw new Error("Token Verify Failed");
+        } else {
+            const reserves = await Reserve.findAll({
+                attributes: ['sid', 'day', 'time', 'reserved'],
+            });
+            const result = {
+                "sat": [],
+                "sun": []
+            };
+            for (let i = 0; i < reserves.length; i++) {
+                if (reserves[i].reserved) {
+                    if (reserves[i].day === 'sat') {
+                        result.sat.push({
+                            "time": reserves[i].time,
+                            "sid": reserves[i].sid
+                        });
+                    } else {
+                        result.sun.push({
+                            "time": reserves[i].time,
+                            "sid": reserves[i].sid
+                        });
+                    }
+                }
+            }
             res.send({
-                "result": apply
+                "result": result
             });
         }
-        else {
-            res.status(404).send({
-                "error": "Not Found"
+    }
+    catch (err) {
+        console.error(err);
+        return res.status(400);
+    }
+});
+
+router.get('/user/:sid', async (req, res) => {
+    try {
+        let token_res = await token_verify(req.headers.authorization);
+        if (token_res === false) {
+            throw new Error("Token Verify Failed");
+        } else {
+            const user = await User.findOne({
+                where: {
+                    sid: req.params.sid
+                }
+            });
+            const result = {
+                "name": user.name,
+                "phone": user.phone,
+            }
+            res.send({
+                "result": result
             });
         }
     }
